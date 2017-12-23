@@ -4,16 +4,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{02770340-CB7F-4DBD-8E02-29A5762F2EBD}</ProjectGuid>
-    <OutputType>Exe</OutputType>
-    <RootNamespace>ApacheLogParser</RootNamespace>
-    <AssemblyName>ApacheLogParser</AssemblyName>
+    <ProjectGuid>{8D4E0842-0D35-48B9-BA9B-F2EC77823992}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ApacheLogParser.BL</RootNamespace>
+    <AssemblyName>ApacheLogParser.BL</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -23,7 +22,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -42,16 +40,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Program.cs" />
+    <Compile Include="Client.cs" />
+    <Compile Include="Parsers\ApacheParser.cs" />
+    <Compile Include="Parsers\Base\IParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\ApacheLogParser.BL\ApacheLogParser.BL.csproj">
-      <Project>{8D4E0842-0D35-48B9-BA9B-F2EC77823992}</Project>
-      <Name>ApacheLogParser.BL</Name>
+    <ProjectReference Include="..\ApacheLogParser.Entities\ApacheLogParser.Entities.csproj">
+      <Project>{E5282066-465F-40B6-9571-BF47B1688283}</Project>
+      <Name>ApacheLogParser.Entities</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

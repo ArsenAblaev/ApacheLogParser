@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using ApacheLogParser.BL;
+using ApacheLogParser.BL.Parsers;
+using ApacheLogParser.BL.Parsers.Base;
 
 namespace ApacheLogParser
 {
@@ -10,6 +8,9 @@ namespace ApacheLogParser
     {
         static void Main(string[] args)
         {
+            IParser parser = new ApacheParser();
+            var client = new Client(parser);
+            client.Parse();
         }
     }
 }
