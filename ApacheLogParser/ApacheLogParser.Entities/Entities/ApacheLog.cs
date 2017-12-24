@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Net;
 
 namespace ApacheLogParser.Entities.Entities
 {
@@ -10,7 +9,7 @@ namespace ApacheLogParser.Entities.Entities
         public string Ip { get; set; }
         public string Route { get; set; }
         public string QueryParams { get; set; }
-        public HttpStatusCode StatusCode { get; set; }
+        public short StatusCode { get; set; }
         public int Size { get; set; }
     }
 }

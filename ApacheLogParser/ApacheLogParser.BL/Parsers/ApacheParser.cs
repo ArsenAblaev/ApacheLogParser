@@ -5,58 +5,72 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 using ApacheLogParser.BL.Parsers.Base;
+using ApacheLogParser.DAL.Repositories;
+using ApacheLogParser.DAL.Repositories.Base;
 using ApacheLogParser.Entities.Entities;
 
 namespace ApacheLogParser.BL.Parsers
 {
     public class ApacheParser : IParser
     {
-        private readonly object _lock = new object();
+        private readonly string _filePath;
+        private readonly IApacheLogRepository _repository;
 
-        public void Parse()
+        public ApacheParser(string filePath, IApacheLogRepository repository)
         {
-            var lines = File.ReadLines(@"E:\Plarium\apache-samples\access_log\access_log_Jul95").Take(100000).AsParallel();
+            _filePath = filePath;
+            _repository = repository;
+        }
+      
+        public  void Parse()
+        {
+            var lines = File.ReadLines(_filePath)//.Take(100000)
+                .AsParallel();
 
-            var logEntryPattern = "^([^\\>]+) (\\S+) (\\S+) \\[([\\w:/]+\\s[+\\-]\\d{4})\\] \"(.+?)\" (\\d{3}) (\\d+|-)";
+
+            // var count = lines.Count();
+            var logEntryPattern = "^([^\\>]+) (\\S+) (\\S+) \\[([\\w:/]+\\s[+\\-]\\d{4})\\] \"(((?!gif|GIF|jpg|JPG).)+?)\" (\\d{3}) (\\d+|-)";
+
+
+            //Example todo
+            //crystal.ipac.caltech.edu - - [17/Jul/1995:20:00:23 -0400] "GET /facts/faq04.html HTTP/1.0" 200 27063
 
 
             var regEx = new Regex(logEntryPattern);
 
-            //   (?:[A - Za - z0 - 9][A - Za - z0 - 9\-]{ 0,61}[A-Za-z0-9]|[A-Za-z0-9])
 
-            //Console.WriteLine("IP Address: " + regexMatch.Groups[1].Value);
-            //Console.WriteLine("Date&Time: " + regexMatch.Groups[4].Value);
-            //Console.WriteLine("Request: " + regexMatch.Groups[5].Value);
-            //Console.WriteLine("Response: " + regexMatch.Groups[6].Value);
-            //Console.WriteLine("Bytes Sent: " + regexMatch.Groups[7].Value);
-
-            var stopWatch = new Stopwatch();
-            stopWatch.Start();
-
-
-            var result = lines.Where(x => regEx.IsMatch(x)).Select(x =>
+           var result = lines.Where(x => regEx.IsMatch(x)).Select(x =>
              {
 
                  var regexMatch = regEx.Match(x);
                  var log = new ApacheLog
                  {
                      Ip = regexMatch.Groups[1].Value,
-                     //RequestDate = DateTime.Parse(regexMatch.Groups[4].Value),
+                     RequestDate = DateTime.Now,// DateTime.Parse(regexMatch.Groups[4].Value),
                      Route = regexMatch.Groups[5].Value,
-                     StatusCode = (HttpStatusCode)int.Parse(regexMatch.Groups[6].Value),
-                     Size = int.TryParse(regexMatch.Groups[7].Value, out int size) ? size : default(int)
+                     StatusCode = short.Parse(regexMatch.Groups[7].Value),
+                     Size = int.TryParse(regexMatch.Groups[8].Value, out int size) ? size : default(int)
                  };
+
                  return log;
 
              }).ToList();
 
+            var stopWatch = new Stopwatch();
+            stopWatch.Start();
+            
+            _repository.BulkInsert(result);
 
             stopWatch.Stop();
             Console.WriteLine();
 
+
+            // Time: 11
             Console.WriteLine($"Count: {result.Count} | Time: {stopWatch.Elapsed}");
         }
     }

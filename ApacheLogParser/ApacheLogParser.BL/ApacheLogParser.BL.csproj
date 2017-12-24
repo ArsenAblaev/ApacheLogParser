@@ -46,6 +46,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ApacheLogParser.DAL\ApacheLogParser.DAL.csproj">
+      <Project>{ABD1C524-F935-4FD6-9223-8C058660A973}</Project>
+      <Name>ApacheLogParser.DAL</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ApacheLogParser.Entities\ApacheLogParser.Entities.csproj">
       <Project>{E5282066-465F-40B6-9571-BF47B1688283}</Project>
       <Name>ApacheLogParser.Entities</Name>

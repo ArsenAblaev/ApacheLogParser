@@ -1,6 +1,7 @@
 ﻿using ApacheLogParser.BL;
 using ApacheLogParser.BL.Parsers;
 using ApacheLogParser.BL.Parsers.Base;
+using ApacheLogParser.DAL.Repositories;
 
 namespace ApacheLogParser
 {
@@ -8,7 +9,8 @@ namespace ApacheLogParser
     {
         static void Main(string[] args)
         {
-            IParser parser = new ApacheParser();
+            var repository = new ApacheLogRepository();
+            IParser parser = new ApacheParser(@"E:\Plarium\apache-samples\access_log\access_log_Jul95", repository);
             var client = new Client(parser);
             client.Parse();
         }

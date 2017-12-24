@@ -1,13 +1,11 @@
 ﻿using System.Collections.Generic;
+using ApacheLogParser.Entities.Entities;
 
 namespace ApacheLogParser.DAL.Repositories.Base
 {
-    public interface IRepository<TEntity>
+    public interface IRepository<TEntity> where TEntity: IEntity
     {
-        IList<TEntity> GetList();
-        TEntity Get(int id);
-        TEntity Create(TEntity user);
-        void Update(TEntity user);
-        void Delete(int id);
+        List<TEntity> GetList();
+        TEntity Create(TEntity entity);
     }
 }
