@@ -27,8 +27,8 @@ namespace ApacheLogParser.DAL.Repositories
         {
             using (Connection)
             {
-                var sqlQuery = "INSERT INTO ApacheLogs(Client,QueryParams,RequestDate,Route,Size,StatusCode) " +
-                               " VALUES(@Client,@QueryParams,@RequestDate,@Route,@Size,@StatusCode); SELECT CAST(SCOPE_IDENTITY() as int)";
+                var sqlQuery = "INSERT INTO ApacheLogs(Client,QueryParams,RequestDate,Route,Size,StatusCode,Geolocation) " +
+                               " VALUES(@Client,@QueryParams,@RequestDate,@Route,@Size,@StatusCode,@Geolocation); SELECT CAST(SCOPE_IDENTITY() as int)";
 
                 int? userId = Connection.Query<int>(sqlQuery, log).FirstOrDefault();
                 log.Id = (int)userId;
@@ -56,6 +56,7 @@ namespace ApacheLogParser.DAL.Repositories
                     copy.ColumnMappings.Add(nameof(ApacheLog.QueryParams), nameof(ApacheLog.QueryParams));
                     copy.ColumnMappings.Add(nameof(ApacheLog.StatusCode), nameof(ApacheLog.StatusCode));
                     copy.ColumnMappings.Add(nameof(ApacheLog.Size), nameof(ApacheLog.Size));
+                    copy.ColumnMappings.Add(nameof(ApacheLog.Geolocation), nameof(ApacheLog.Geolocation));
 
 
 
@@ -65,6 +66,7 @@ namespace ApacheLogParser.DAL.Repositories
                     table.Columns.Add(nameof(ApacheLog.QueryParams), typeof(string));
                     table.Columns.Add(nameof(ApacheLog.StatusCode), typeof(short));
                     table.Columns.Add(nameof(ApacheLog.Size), typeof(int));
+                    table.Columns.Add(nameof(ApacheLog.Geolocation), typeof(string));
 
                     foreach (var entity in entities)
                     {

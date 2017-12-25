@@ -11,5 +11,6 @@ namespace ApacheLogParser.Entities.Entities
         public string QueryParams { get; set; }
         public short StatusCode { get; set; }
         public int Size { get; set; }
+        public string Geolocation { get; set; }
     }
 }
