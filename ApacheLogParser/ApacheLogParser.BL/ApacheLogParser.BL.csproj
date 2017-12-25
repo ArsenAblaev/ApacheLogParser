@@ -30,13 +30,27 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="csredis, Version=1.4.7.1, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\csredis.1.4.7.1\lib\net40\csredis.dll</HintPath>
+    </Reference>
+    <Reference Include="Interop.MSUtil, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\TimberWinR.1.0.0.1\lib\net40\Interop.MSUtil.dll</HintPath>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.6.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NLog, Version=3.1.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <HintPath>..\packages\NLog.3.1.0.0\lib\net45\NLog.dll</HintPath>
+    </Reference>
+    <Reference Include="RapidRegex.Core, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RapidRegex.Core.1.0.0.0\lib\net40\RapidRegex.Core.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
@@ -44,6 +58,10 @@
     <Compile Include="Parsers\ApacheParser.cs" />
     <Compile Include="Parsers\Base\IParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\ConsoleLogger.cs" />
+    <Compile Include="Services\FileWrapper.cs" />
+    <Compile Include="Services\Interfaces\IFile.cs" />
+    <Compile Include="Services\Interfaces\ILogger.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ApacheLogParser.DAL\ApacheLogParser.DAL.csproj">
@@ -54,6 +72,12 @@
       <Project>{E5282066-465F-40B6-9571-BF47B1688283}</Project>
       <Name>ApacheLogParser.Entities</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="lib\com-logparser\Interop.MSUtil.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

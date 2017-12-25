@@ -6,7 +6,7 @@ namespace ApacheLogParser.Entities.Entities
     {
         public int Id { get; set; }
         public DateTime RequestDate { get; set; }
-        public string Ip { get; set; }
+        public string Client { get; set; }
         public string Route { get; set; }
         public string QueryParams { get; set; }
         public short StatusCode { get; set; }
