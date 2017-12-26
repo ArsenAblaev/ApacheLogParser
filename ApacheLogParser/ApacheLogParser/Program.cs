@@ -15,7 +15,7 @@ namespace ApacheLogParser
             ILogger logger = new ConsoleLogger();
             IFile file = new FileWrapper();
             IParser parser = new ApacheParser
-                (@"E:\Plarium\apache-samples\access_log\access_log_Jul95",
+                (@"F:\Projects\ApacheLogParser\Files\access_log_Jul95",
                 repository,
                 logger,
                 file);

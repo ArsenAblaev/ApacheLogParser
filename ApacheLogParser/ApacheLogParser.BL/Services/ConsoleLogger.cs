@@ -1,5 +1,5 @@
 ﻿using System;
-using ApacheLogParser.BL.Services.Interfaces;
+using ApacheLogParser.Common.Services.Interfaces;
 
 namespace ApacheLogParser.BL.Services
 {

@@ -68,9 +68,12 @@
     <Compile Include="Services\ConsoleLogger.cs" />
     <Compile Include="Services\FileWrapper.cs" />
     <Compile Include="Services\Interfaces\IFile.cs" />
-    <Compile Include="Services\Interfaces\ILogger.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ApacheLogParser.Common\ApacheLogParser.Common.csproj">
+      <Project>{DCF6FAA8-E6A5-4330-9EE2-01ACF68A525F}</Project>
+      <Name>ApacheLogParser.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ApacheLogParser.DAL\ApacheLogParser.DAL.csproj">
       <Project>{ABD1C524-F935-4FD6-9223-8C058660A973}</Project>
       <Name>ApacheLogParser.DAL</Name>
