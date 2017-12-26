@@ -58,7 +58,7 @@ namespace ApacheLogParser.BL.Parsers
 
             const string datePattern = "dd/MMM/yyyy:HH:mm:ss zzz";
 
-            
+            int count = 0;
             var result2 = lines.Select(x =>
               {
 
@@ -77,13 +77,17 @@ namespace ApacheLogParser.BL.Parsers
                           StatusCode = short.Parse(match.Groups[7].Value),
                           Size = int.TryParse(match.Groups[8].Value, out int size) ? size : default(int)
                       };
-                      //count++;
-                      var geolocation = GetUserCountryByIp(log.Client);
+                     
+                          count++;
 
-                      if (geolocation != null)
-                      {
-                          Console.WriteLine($"Country: {geolocation}, Client: {log.Client}, Count: {1}");
-                      }
+                      //todo Add service to Geolocate
+                     
+                      //var geolocation = GetUserCountryByIp(log.Client);
+
+                      //if (geolocation != null)
+                      //{
+                      //    Console.WriteLine($"Country: {geolocation}, Client: {log.Client}, Count: {count}");
+                      //}
 
                       return log;
                   }
@@ -141,28 +145,22 @@ namespace ApacheLogParser.BL.Parsers
         public static string GetUserCountryByIp(string ip)
         {
 
-            using (var client = new WebServiceClient(, "license_key"))
+
+            IpInfo ipInfo = new IpInfo();
+            try
             {
-                // Do the lookup
-                var response = client.Country("128.101.101.101");
+                var info = new WebClient().DownloadString("http://ipinfo.io/" + ip);
 
-                return response.Country.Name;
+                ipInfo = JsonConvert.DeserializeObject<IpInfo>(info);
+                var myRI1 = new RegionInfo(ipInfo.Country);
+                ipInfo.Country = myRI1.EnglishName;
             }
-            //IpInfo ipInfo = new IpInfo();
-            //try
-            //{
-            //    var info = new WebClient().DownloadString("http://ipinfo.io/" + ip);
+            catch (Exception e)
+            {
+                ipInfo.Country = null;
+            }
 
-            //    ipInfo = JsonConvert.DeserializeObject<IpInfo>(info);
-            //    var myRI1 = new RegionInfo(ipInfo.Country);
-            //    ipInfo.Country = myRI1.EnglishName;
-            //}
-            //catch (Exception e)
-            //{
-            //    ipInfo.Country = null;
-            //}
-
-            //return ipInfo.Country;
+            return ipInfo.Country;
         }
 
 

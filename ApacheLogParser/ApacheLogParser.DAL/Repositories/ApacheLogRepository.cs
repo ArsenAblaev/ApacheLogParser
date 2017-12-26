@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using ApacheLogParser.DAL.DataBaseModels.ApacheLogModels;
 using ApacheLogParser.DAL.Repositories.Base;
 using ApacheLogParser.Entities.Entities;
 using Dapper;
@@ -13,14 +14,14 @@ namespace ApacheLogParser.DAL.Repositories
     {
         public List<ApacheLog> GetList()
         {
-            List<ApacheLog> cars;
+            List<ApacheLog> logs;
 
             using (Connection)
             {
-                cars = Connection.Query<ApacheLog>("SELECT * FROM ApacheLogs").ToList();
+                logs = Connection.Query<ApacheLog>("SELECT * FROM ApacheLogs").ToList();
             }
 
-            return cars;
+            return logs;
         }
 
         public ApacheLog Create(ApacheLog log)
@@ -79,6 +80,40 @@ namespace ApacheLogParser.DAL.Repositories
             }
 
         }
+
+        public List<ClientRequestModel> GetTopClientRequestsByDateRange(DateTime? start, DateTime? end, int countOfClients)
+        {
+
+            List<ClientRequestModel> logs;
+
+            using (Connection)
+            {
+                logs = Connection.Query<ClientRequestModel>(@"select top (@CountOfClients) Client, COUNT(Client) as CountOfRequests from ApacheLogs
+                                                     where RequestDate between ISNULL(@Start,(select MIN(RequestDate) from ApacheLogs))
+                                                     and ISNULL(@End,(select MAX(RequestDate) from ApacheLogs)) 
+                                                     group by(Client)
+                                                     order by COUNT(Client) desc", new { Start = start, End = end, CountOfClients = countOfClients }).ToList();
+            }
+
+            return logs;
+        }
+
+        public List<RouteRequestModel> GetTopRouteRequestsByDateRange(DateTime? start, DateTime? end, int countOfRoutes)
+        {
+            List<RouteRequestModel> logs;
+
+            using (Connection)
+            {
+                logs = Connection.Query<RouteRequestModel>(@"select top (@CountOfRoutes) Route, COUNT(Route) as CountOfRequests from ApacheLogs
+                                                     where RequestDate between ISNULL(@Start,(select MIN(RequestDate) from ApacheLogs)) 
+                                                     and ISNULL(@End,(select MAX(RequestDate) from ApacheLogs))
+                                                     group by(Route)
+                                                     order by COUNT(Route) desc", new { Start = start, End = end, CountOfRoutes = countOfRoutes }).ToList();
+            }
+
+            return logs;
+        }
+
 
         public void Update(ApacheLog log)
         {
