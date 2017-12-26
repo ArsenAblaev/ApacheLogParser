@@ -3,6 +3,7 @@ using ApacheLogParser.BL.Parsers;
 using ApacheLogParser.BL.Parsers.Base;
 using ApacheLogParser.BL.Services;
 using ApacheLogParser.BL.Services.Interfaces;
+using ApacheLogParser.Common.Services.Interfaces;
 using ApacheLogParser.DAL.Repositories;
 
 namespace ApacheLogParser

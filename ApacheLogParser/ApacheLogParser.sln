@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26730.3
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApacheLogParser", "ApacheLogParser\ApacheLogParser.csproj", "{02770340-CB7F-4DBD-8E02-29A5762F2EBD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApacheLogParser.Console", "ApacheLogParser\ApacheLogParser.Console.csproj", "{02770340-CB7F-4DBD-8E02-29A5762F2EBD}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApacheLogParser.Entities", "ApacheLogParser.Entities\ApacheLogParser.Entities.csproj", "{E5282066-465F-40B6-9571-BF47B1688283}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApacheLogParser.DAL", "ApacheLogParser.DAL\ApacheLogParser.DAL.csproj", "{ABD1C524-F935-4FD6-9223-8C058660A973}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApacheLogParser.BL", "ApacheLogParser.BL\ApacheLogParser.BL.csproj", "{8D4E0842-0D35-48B9-BA9B-F2EC77823992}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApacheLogParser.Business", "ApacheLogParser.BL\ApacheLogParser.Business.csproj", "{8D4E0842-0D35-48B9-BA9B-F2EC77823992}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApacheLogParser.API", "ApacheLogParser.API\ApacheLogParser.API.csproj", "{4448F202-D14B-4EAC-8C04-1C026DC78C17}"
 EndProject
