@@ -1,5 +1,7 @@
 ﻿using System.Reflection;
 using System.Web.Http;
+using ApacheLogParser.API.Infrastructure.Services;
+using ApacheLogParser.Common.Services.Interfaces;
 using ApacheLogParser.DAL.Repositories;
 using Autofac;
 using Autofac.Integration.WebApi;
@@ -18,7 +20,7 @@ namespace ApacheLogParser.API
             // Register your Web API controllers.
             builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
             builder.RegisterType<ApacheLogRepository>().As<IApacheLogRepository>();
-
+            builder.RegisterType<Logger>().As<ILogger>();
           
 
             // Set the dependency resolver to be Autofac.

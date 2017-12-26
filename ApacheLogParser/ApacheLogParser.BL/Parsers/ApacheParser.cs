@@ -13,6 +13,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using ApacheLogParser.BL.Parsers.Base;
 using ApacheLogParser.BL.Services.Interfaces;
+using ApacheLogParser.Common.Services.Interfaces;
 using ApacheLogParser.DAL.Repositories;
 using ApacheLogParser.DAL.Repositories.Base;
 using ApacheLogParser.Entities.Entities;

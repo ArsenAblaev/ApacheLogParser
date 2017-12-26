@@ -9,7 +9,8 @@ namespace ApacheLogParser.DAL.Repositories
     public interface IApacheLogRepository : IRepository<ApacheLog>
     {
         void BulkInsert(List<ApacheLog> entities);
-        List<ClientRequestModel> GetTopClientRequestsByDateRange(DateTime? start, DateTime? end,int countOfClients);
-        List<RouteRequestModel> GetTopRouteRequestsByDateRange(DateTime? start, DateTime? end,int countOfRoutes);
+        List<ClientRequestModel> GetTopClientRequestsByDateRange(DateTime? start, DateTime? end, int countOfClients);
+        List<RouteRequestModel> GetTopRouteRequestsByDateRange(DateTime? start, DateTime? end, int countOfRoutes);
+        List<ApacheLog> GetTopRequestsByDateRange(DateTime? start, DateTime? end, int offset, int limit);
     }
 }
