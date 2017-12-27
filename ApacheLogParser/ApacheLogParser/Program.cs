@@ -10,7 +10,7 @@ namespace ApacheLogParser
 {
     class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
             var repository = new ApacheLogRepository();
             ILogger logger = new ConsoleLogger();

@@ -12,5 +12,7 @@ namespace ApacheLogParser.DAL.Repositories
         List<ClientRequestModel> GetTopClientRequestsByDateRange(DateTime? start, DateTime? end, int countOfClients);
         List<RouteRequestModel> GetTopRouteRequestsByDateRange(DateTime? start, DateTime? end, int countOfRoutes);
         List<ApacheLog> GetTopRequestsByDateRange(DateTime? start, DateTime? end, int offset, int limit);
+        List<ApacheLogClientModel> GetApacheLogsWitoutGeolocation();
+        void UpdateGeolocationByClient(IEnumerable<ApacheLogClientModel> clients);
     }
 }

@@ -16,9 +16,9 @@ namespace ApacheLogParser.DAL.Repositories
         {
             List<ApacheLog> logs;
 
-            using (Connection)
+            using (var connection = new SqlConnection(ConnectionString))
             {
-                logs = Connection.Query<ApacheLog>("SELECT * FROM ApacheLogs").ToList();
+                logs = connection.Query<ApacheLog>("SELECT * FROM ApacheLogs").ToList();
             }
 
             return logs;
@@ -26,14 +26,16 @@ namespace ApacheLogParser.DAL.Repositories
 
         public ApacheLog Create(ApacheLog log)
         {
-            using (Connection)
+            using (var connection = new SqlConnection(ConnectionString))
             {
+
                 var sqlQuery = "INSERT INTO ApacheLogs(Client,QueryParams,RequestDate,Route,Size,StatusCode,Geolocation) " +
                                " VALUES(@Client,@QueryParams,@RequestDate,@Route,@Size,@StatusCode,@Geolocation); SELECT CAST(SCOPE_IDENTITY() as int)";
 
-                int? logId = Connection.Query<int>(sqlQuery, log).FirstOrDefault();
+                int? logId = connection.Query<int>(sqlQuery, log).FirstOrDefault();
                 log.Id = (int)logId;
             }
+
             return log;
         }
 
@@ -42,9 +44,9 @@ namespace ApacheLogParser.DAL.Repositories
 
             List<ClientRequestModel> logs;
 
-            using (Connection)
+            using (var connection = new SqlConnection(ConnectionString))
             {
-                logs = Connection.Query<ClientRequestModel>(@"select top (@CountOfClients) Client, COUNT(Client) as CountOfRequests from ApacheLogs
+                logs = connection.Query<ClientRequestModel>(@"select top (@CountOfClients) Client, COUNT(Client) as CountOfRequests from ApacheLogs
                                                      where RequestDate between ISNULL(@Start,(select MIN(RequestDate) from ApacheLogs))
                                                      and ISNULL(@End,(select MAX(RequestDate) from ApacheLogs)) 
                                                      group by(Client)
@@ -58,9 +60,9 @@ namespace ApacheLogParser.DAL.Repositories
         {
             List<RouteRequestModel> logs;
 
-            using (Connection)
+            using (var connection = new SqlConnection(ConnectionString))
             {
-                logs = Connection.Query<RouteRequestModel>(@"select top (@CountOfRoutes) Route, COUNT(Route) as CountOfRequests from ApacheLogs
+                logs = connection.Query<RouteRequestModel>(@"select top (@CountOfRoutes) Route, COUNT(Route) as CountOfRequests from ApacheLogs
                                                      where RequestDate between ISNULL(@Start,(select MIN(RequestDate) from ApacheLogs)) 
                                                      and ISNULL(@End,(select MAX(RequestDate) from ApacheLogs))
                                                      group by(Route)
@@ -74,9 +76,9 @@ namespace ApacheLogParser.DAL.Repositories
         {
             List<ApacheLog> logs;
 
-            using (Connection)
+            using (var connection = new SqlConnection(ConnectionString))
             {
-                logs = Connection.Query<ApacheLog>(@"select * from ApacheLogs
+                logs = connection.Query<ApacheLog>(@"select * from ApacheLogs
                                                      where RequestDate between ISNULL(@Start,(select MIN(RequestDate) from ApacheLogs)) 
                                                      and ISNULL(@End,(select MAX(RequestDate) from ApacheLogs))
                                                      order by RequestDate
@@ -87,15 +89,48 @@ namespace ApacheLogParser.DAL.Repositories
             return logs;
         }
 
+        public List<ApacheLogClientModel> GetApacheLogsWitoutGeolocation()
+        {
+            List<ApacheLogClientModel> logs;
+
+            using (var connection = new SqlConnection(ConnectionString))
+            {
+                logs = connection.Query<ApacheLogClientModel>("SELECT DISTINCT Client FROM ApacheLogs WHERE Geolocation IS NULL").ToList();
+            }
+
+            return logs;
+        }
+
+
+        public void UpdateGeolocationByClient(IEnumerable<ApacheLogClientModel> clients)
+        {
+            using (var connection = new SqlConnection(ConnectionString))
+            {
+                var clientGeolocationTable = new DataTable();
+                clientGeolocationTable.Columns.Add(new DataColumn("Client", typeof(string)));
+                clientGeolocationTable.Columns.Add(new DataColumn("Geolocation", typeof(string)));
+
+                foreach (var client in clients)
+                {
+                    clientGeolocationTable.Rows.Add(client.Client, client.Geolocation);
+                }
+
+                connection.Query(@"update [log] set [log].Geolocation = cg.Geolocation
+                                 from ApacheLogs [log]
+                                 join @ClientGeolocation cg on cg.Client = [log].Client", 
+                                 new { ClientGeolocation = clientGeolocationTable.AsTableValuedParameter("dbo.[ClientGeolocation]") });
+
+            }
+        }
 
         //todo 
         public void BulkInsert(List<ApacheLog> entities)
         {
-            using (Connection)
+            using (var connection = new SqlConnection(ConnectionString))
             {
-                Connection.Open();
+                // connection.Open();
 
-                using (var copy = new SqlBulkCopy((SqlConnection)Connection))
+                using (var copy = new SqlBulkCopy(connection))
                 {
                     copy.DestinationTableName = "ApacheLogs";
                     var table = new DataTable("ApacheLogs");
