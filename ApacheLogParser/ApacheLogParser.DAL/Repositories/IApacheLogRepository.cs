@@ -6,6 +6,9 @@ using ApacheLogParser.Entities.Entities;
 
 namespace ApacheLogParser.DAL.Repositories
 {
+    /// <summary>
+    /// Provides data access layer to ApacheLogs table. 
+    /// </summary>
     public interface IApacheLogRepository : IRepository<ApacheLog>
     {
         void BulkInsert(List<ApacheLog> entities);

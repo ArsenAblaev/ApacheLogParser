@@ -1,4 +1,6 @@
-﻿using ApacheLogParser.BL;
+﻿using System;
+using System.IO;
+using ApacheLogParser.BL;
 using ApacheLogParser.BL.Parsers;
 using ApacheLogParser.BL.Parsers.Base;
 using ApacheLogParser.BL.Services;
@@ -12,16 +14,28 @@ namespace ApacheLogParser
     {
         static void Main()
         {
-            var repository = new ApacheLogRepository();
+            IApacheLogRepository repository = new ApacheLogRepository();
             ILogger logger = new ConsoleLogger();
             IFile file = new FileWrapper();
             IParser parser = new ApacheParser
-                (@"F:\Projects\ApacheLogParser\Files\access_log_Jul95",
-                repository,
-                logger,
-                file);
+            (TryToGetFilePath(),
+            repository,
+            logger,
+            file);
             var client = new Client(parser);
             client.Parse();
+        }
+
+        static string TryToGetFilePath()
+        {
+            Console.WriteLine("Please choose a file...");
+            var filePath = Console.ReadLine();
+            while (!File.Exists(filePath))
+            {
+                Console.WriteLine("File does not exist. Please choose another path");
+                filePath = Console.ReadLine();
+            }
+            return filePath;
         }
     }
 }

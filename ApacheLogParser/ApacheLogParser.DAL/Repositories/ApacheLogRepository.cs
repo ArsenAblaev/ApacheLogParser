@@ -10,8 +10,16 @@ using Dapper;
 
 namespace ApacheLogParser.DAL.Repositories
 {
+    /// <summary>
+    /// Provides data access layer to ApacheLogs table. 
+    /// </summary>
     public class ApacheLogRepository : BaseRepository, IApacheLogRepository
     {
+
+        /// <summary>
+        /// Get all ApacheLogs from DB
+        /// </summary>
+        /// <returns></returns>
         public List<ApacheLog> GetList()
         {
             List<ApacheLog> logs;
@@ -24,6 +32,11 @@ namespace ApacheLogParser.DAL.Repositories
             return logs;
         }
 
+        /// <summary>
+        /// Create single ApacheLog
+        /// </summary>
+        /// <param name="log"></param>
+        /// <returns></returns>
         public ApacheLog Create(ApacheLog log)
         {
             using (var connection = new SqlConnection(ConnectionString))
@@ -39,6 +52,15 @@ namespace ApacheLogParser.DAL.Repositories
             return log;
         }
 
+        /// <summary>
+        /// Get top N-clients ordered by number of requests descending by data range.
+        /// If start = null : start = MIN date
+        /// If end = null: end = MAX date 
+        /// </summary>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
+        /// <param name="countOfClients"></param>
+        /// <returns></returns>
         public List<ClientRequestModel> GetTopClientRequestsByDateRange(DateTime? start, DateTime? end, int countOfClients)
         {
 
@@ -56,6 +78,15 @@ namespace ApacheLogParser.DAL.Repositories
             return logs;
         }
 
+        /// <summary>
+        /// Get top N-routes ordered by number of requests descending by date range.
+        /// If start = null: start = MIN date
+        /// IF end = null: end = MAX date
+        /// </summary>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
+        /// <param name="countOfRoutes"></param>
+        /// <returns></returns>
         public List<RouteRequestModel> GetTopRouteRequestsByDateRange(DateTime? start, DateTime? end, int countOfRoutes)
         {
             List<RouteRequestModel> logs;
@@ -72,6 +103,16 @@ namespace ApacheLogParser.DAL.Repositories
             return logs;
         }
 
+        /// <summary>
+        /// Get all ApacheLog fields ordered by RequestDate with offset and limit
+        /// If start = null: start = MIN date
+        /// If end = null: end = MAX date
+        /// </summary>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
+        /// <param name="offset"></param>
+        /// <param name="limit"></param>
+        /// <returns></returns>
         public List<ApacheLog> GetTopRequestsByDateRange(DateTime? start, DateTime? end, int offset, int limit)
         {
             List<ApacheLog> logs;
@@ -89,6 +130,10 @@ namespace ApacheLogParser.DAL.Repositories
             return logs;
         }
 
+        /// <summary>
+        /// Get all unique ApacheLog clients which have not been geolocated.
+        /// </summary>
+        /// <returns></returns>
         public List<ApacheLogClientModel> GetApacheLogsWitoutGeolocation()
         {
             List<ApacheLogClientModel> logs;
@@ -102,6 +147,10 @@ namespace ApacheLogParser.DAL.Repositories
         }
 
 
+        /// <summary>
+        /// Update geolocation for clients.
+        /// </summary>
+        /// <param name="clients"></param>
         public void UpdateGeolocationByClient(IEnumerable<ApacheLogClientModel> clients)
         {
             using (var connection = new SqlConnection(ConnectionString))
@@ -123,21 +172,21 @@ namespace ApacheLogParser.DAL.Repositories
             }
         }
 
-        //todo 
+        /// <summary>
+        /// Insert ApacheLogs by bulk insert.
+        /// </summary>
+        /// <param name="entities"></param>
         public void BulkInsert(List<ApacheLog> entities)
         {
             using (var connection = new SqlConnection(ConnectionString))
             {
-                // connection.Open();
+                connection.Open();
 
                 using (var copy = new SqlBulkCopy(connection))
                 {
                     copy.DestinationTableName = "ApacheLogs";
                     var table = new DataTable("ApacheLogs");
-
-                    //to reduce error chanses.
-                    //copy.BatchSize = entities.Count / 10;
-
+                    
                     copy.ColumnMappings.Add(nameof(ApacheLog.RequestDate), nameof(ApacheLog.RequestDate));
                     copy.ColumnMappings.Add(nameof(ApacheLog.Client), nameof(ApacheLog.Client));
                     copy.ColumnMappings.Add(nameof(ApacheLog.Route), nameof(ApacheLog.Route));

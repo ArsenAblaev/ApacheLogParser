@@ -8,6 +8,13 @@ using System.Net;
 
 namespace ApacheLogParser.Geolocation
 {
+    /// <summary>
+    /// Geolocate apache logs by ip address.
+    /// Separate service because of performance affection.
+    /// It takes a lot of time if geolocate apache log during the data parsing, 
+    /// so i desided to create a scheduled service which is gonna be ran each 1 hours (for example) and get all logs which haven't been geolocated and 
+    /// via 3-d party api set country for them.
+    /// </summary>
     public class ApacheLogGeolocationService
     {
         private readonly IApacheLogRepository _repository;
@@ -27,7 +34,7 @@ namespace ApacheLogParser.Geolocation
          {
              log.Geolocation = GetUserCountryByIp(log.Client);
              if (log.Geolocation != null)
-                 _logger.Info($"Geolocation has been resolved : {log.Geolocation}");
+                 _logger.Info($"Geolocation has been resolved for IP: IP: {log.Client} | Geolocation: {log.Geolocation}");
              return log;
          });
 
@@ -46,20 +53,20 @@ namespace ApacheLogParser.Geolocation
 
         public static string GetUserCountryByIp(string ip)
         {
-            var ipInfo = new IpInfo();
+            var countryInfo = new CountryInfo();
             try
             {
                 var info = new WebClient().DownloadString("http://ipinfo.io/" + ip);
 
-                ipInfo = JsonConvert.DeserializeObject<IpInfo>(info);
+                countryInfo = JsonConvert.DeserializeObject<CountryInfo>(info);
 
             }
             catch (Exception)
             {
-                ipInfo.Country = null;
+                countryInfo.Country = null;
             }
 
-            return ipInfo.Country;
+            return countryInfo.Country;
         }
     }
 }
