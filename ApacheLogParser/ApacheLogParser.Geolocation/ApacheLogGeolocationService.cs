@@ -3,6 +3,7 @@ using ApacheLogParser.DAL.Repositories;
 using ApacheLogParser.Geolocation.Models;
 using Newtonsoft.Json;
 using System;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Net;
 
@@ -28,6 +29,7 @@ namespace ApacheLogParser.Geolocation
 
         public void Geolocate()
         {
+            _logger.Info("Start geolocation...");
             var logs = _repository.GetApacheLogsWitoutGeolocation().AsParallel();
 
             var geolocatedLogs = logs.Select(log =>
@@ -41,7 +43,14 @@ namespace ApacheLogParser.Geolocation
 
             try
             {
+                _logger.Info("Updating geolocation in database...");
                 _repository.UpdateGeolocationByClient(geolocatedLogs);
+                _logger.Info("Geolocation has been updated in database successfully");
+            }
+            catch (SqlException exception)
+            {
+                _logger.Error($"DataBase error: Error has occured while updating geolocation. Message={exception.Message}");
+                throw;
             }
             catch (Exception)
             {
