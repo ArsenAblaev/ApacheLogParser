@@ -3,7 +3,19 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26730.3
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApacheLogParser", "ApacheLogParser\ApacheLogParser.csproj", "{02770340-CB7F-4DBD-8E02-29A5762F2EBD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApacheLogParser.Console", "ApacheLogParser\ApacheLogParser.Console.csproj", "{02770340-CB7F-4DBD-8E02-29A5762F2EBD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApacheLogParser.Entities", "ApacheLogParser.Entities\ApacheLogParser.Entities.csproj", "{E5282066-465F-40B6-9571-BF47B1688283}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApacheLogParser.DAL", "ApacheLogParser.DAL\ApacheLogParser.DAL.csproj", "{ABD1C524-F935-4FD6-9223-8C058660A973}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApacheLogParser.Business", "ApacheLogParser.BL\ApacheLogParser.Business.csproj", "{8D4E0842-0D35-48B9-BA9B-F2EC77823992}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApacheLogParser.API", "ApacheLogParser.API\ApacheLogParser.API.csproj", "{4448F202-D14B-4EAC-8C04-1C026DC78C17}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApacheLogParser.Common", "ApacheLogParser.Common\ApacheLogParser.Common.csproj", "{DCF6FAA8-E6A5-4330-9EE2-01ACF68A525F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApacheLogParser.Geolocation", "ApacheLogParser.Geolocation\ApacheLogParser.Geolocation.csproj", "{66FA02D0-598B-47D2-B6E4-CE8E89C73C60}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +27,30 @@ Global
 		{02770340-CB7F-4DBD-8E02-29A5762F2EBD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{02770340-CB7F-4DBD-8E02-29A5762F2EBD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{02770340-CB7F-4DBD-8E02-29A5762F2EBD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E5282066-465F-40B6-9571-BF47B1688283}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E5282066-465F-40B6-9571-BF47B1688283}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E5282066-465F-40B6-9571-BF47B1688283}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E5282066-465F-40B6-9571-BF47B1688283}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ABD1C524-F935-4FD6-9223-8C058660A973}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ABD1C524-F935-4FD6-9223-8C058660A973}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ABD1C524-F935-4FD6-9223-8C058660A973}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ABD1C524-F935-4FD6-9223-8C058660A973}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8D4E0842-0D35-48B9-BA9B-F2EC77823992}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8D4E0842-0D35-48B9-BA9B-F2EC77823992}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8D4E0842-0D35-48B9-BA9B-F2EC77823992}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8D4E0842-0D35-48B9-BA9B-F2EC77823992}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4448F202-D14B-4EAC-8C04-1C026DC78C17}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4448F202-D14B-4EAC-8C04-1C026DC78C17}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4448F202-D14B-4EAC-8C04-1C026DC78C17}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4448F202-D14B-4EAC-8C04-1C026DC78C17}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DCF6FAA8-E6A5-4330-9EE2-01ACF68A525F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DCF6FAA8-E6A5-4330-9EE2-01ACF68A525F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DCF6FAA8-E6A5-4330-9EE2-01ACF68A525F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DCF6FAA8-E6A5-4330-9EE2-01ACF68A525F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{66FA02D0-598B-47D2-B6E4-CE8E89C73C60}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{66FA02D0-598B-47D2-B6E4-CE8E89C73C60}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{66FA02D0-598B-47D2-B6E4-CE8E89C73C60}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{66FA02D0-598B-47D2-B6E4-CE8E89C73C60}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
